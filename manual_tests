@@ -1,0 +1,3 @@
+curl -H "Content-Type: application/json" -X POST -d "{\"firstname\": \"John\", \"lastname\": \"Santos\"}" http://localhost:8080/basicbank/user/
+
+curl -H "Content-Type: application/json" -X POST -d "{\"name\": \"some account purpose\",\"userid\": \"1\"}" http://localhost:8080/basicbank/account/
