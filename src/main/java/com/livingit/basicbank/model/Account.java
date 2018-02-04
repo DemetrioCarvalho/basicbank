@@ -17,30 +17,35 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "accounts")
 public class Account implements java.io.Serializable {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2612578813518671670L;
+	
+	public Account() {
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+	@Column(name = "idaccount", unique = true, nullable = false)
+	private Long idaccount;
 
 	@Column(name = "name", length = 50)
 	private String name;
 
 	//@NotNull
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
-	@JoinColumn(name = "iduser", insertable = false, updatable = false)
+	//@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, optional=false)
+	//JoinColumn(name = "iduser", insertable = false, updatable = false)//, nullable = false)
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "iduser")
 	private User user;
 
 	public Long getId() {
-		return id;
+		return idaccount;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.idaccount = id;
 	}
 
 	public String getName() {
@@ -66,23 +71,28 @@ public class Account implements java.io.Serializable {
 	// return sb.toString();
 	// }
 
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", name=" + name + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Account [idaccount=" + idaccount + ", name=" + name + "]";
+//	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (id == null || obj == null || getClass() != obj.getClass())
+		if (idaccount == null || obj == null || getClass() != obj.getClass())
 			return false;
 		Account toCompare = (Account) obj;
-		return id.equals(toCompare.id);
+		return idaccount.equals(toCompare.idaccount);
+	}
+
+	@Override
+	public String toString() {
+		return "Account [idaccount=" + idaccount + ", name=" + name + ", user=" + user + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return id == null ? 0 : id.hashCode();
+		return idaccount == null ? 0 : idaccount.hashCode();
 	}
 }

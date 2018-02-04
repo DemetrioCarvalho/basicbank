@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.livingit.basicbank.model.Account;
+import com.livingit.basicbank.model.Transaction;
 import com.livingit.basicbank.repository.AccountRepository;
 import com.livingit.basicbank.repository.UserRepository;
 
@@ -15,9 +16,6 @@ public class AccountService implements IAccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
-
-	@Autowired
-	private UserService userService;
 
 	@Override
 	public Account save(Account entity) {
@@ -39,4 +37,5 @@ public class AccountService implements IAccountService {
 		accountRepository.delete((Long) id);
 
 	}
+
 }

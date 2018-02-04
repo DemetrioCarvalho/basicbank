@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import com.livingit.basicbank.service.UserService;
  * @author BytesTree
  *
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -32,16 +33,16 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<User> addEmployee(@RequestBody User user) {
+	public ResponseEntity<User> addUser(@RequestBody User user) {
 		userService.save(user);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateEmployee(@RequestBody User user) {
-		User existingEmp = userService.getById(user.getIduser());
-		if (existingEmp == null) {
+	public ResponseEntity<Void> updateUser(@RequestBody User user) {
+		User existingUser = userService.getById(user.getIduser());
+		if (existingUser == null) {
 			logger.debug("User with id " + user.getIduser() + " does not exists");
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} else {
@@ -55,36 +56,36 @@ public class UserController {
 	public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
 		User user = userService.getById(id);
 		if (user == null) {
-			logger.debug("Employee with id " + id + " does not exists");
+			logger.debug("User with id " + id + " does not exists");
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-		logger.debug("Found Employee:: " + user);
+		logger.debug("Found User:: " + user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getAllEmployees() {
+	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> users = userService.getAll();
 		if (users.isEmpty()) {
-			logger.debug("Employees does not exists");
+			logger.debug("Users does not exists");
 			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
 		}
-		logger.debug("Found " + users.size() + " Employees");
+		logger.debug("Found " + users.size() + " Users");
 		logger.debug(Arrays.toString(users.toArray()));
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
 		User user = userService.getById(id);
 		if (user == null) {
-			logger.debug("Employee with id " + id + " does not exists");
+			logger.debug("User with id " + id + " does not exists");
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		} else {
 			userService.delete(id);
-			logger.debug("Employee with id " + id + " deleted");
+			logger.debug("User with id " + id + " deleted");
 			return new ResponseEntity<Void>(HttpStatus.GONE);
 		}
 	}

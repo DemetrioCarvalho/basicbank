@@ -1,20 +1,17 @@
 package com.livingit.basicbank.model;
 
 import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,26 +19,36 @@ import javax.validation.constraints.NotNull;
 @Table(name = "transactions")
 public class Transaction {
 
+	
+	
+	public Transaction() {
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@Column(name = "idtransaction", unique = true, nullable = false)
+	private Long idtransaction;
 
 	private BigDecimal amount;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinTable(name = "account_sources")
-	private Account sources;
+	//@NotNull
+	@ManyToOne//(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "SOURCE_ACCOUNT")
+	private Account sourceAccount;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "account_targets")
-	private Account targets;
+	//@NotNull
+	@ManyToOne//(cascadeidaccount= CascadeType.ALL)
+	@JoinColumn(name = "TARGET_ACCOUNT")
+	private Account targetAccount;
 
-	public Long getId() {
-		return id;
+	
+	public Long getIdtransaction() {
+		return idtransaction;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdtransaction(Long idtransaction) {
+		this.idtransaction = idtransaction;
 	}
 
 	public BigDecimal getAmount() {
@@ -52,21 +59,43 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public Account getSources() {
-		return sources;
+	public Account getSourceAccount() {
+		return sourceAccount;
 	}
 
-	public void setSources(Account sources) {
-		this.sources = sources;
+	public void setSourceAccount(Account sourceAccount) {
+		this.sourceAccount = sourceAccount;
 	}
 
-	public Account getTargets() {
-		return targets;
+	public Account getTargetAccount() {
+		return targetAccount;
 	}
 
-	public void setTargets(Account targets) {
-		this.targets = targets;
+	public void setTargetAccount(Account targetAccount) {
+		this.targetAccount = targetAccount;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (idtransaction == null || obj == null || getClass() != obj.getClass())
+			return false;
+		Transaction toCompare = (Transaction) obj;
+		return idtransaction.equals(toCompare.idtransaction);
+	}
 
+	@Override
+	public int hashCode() {
+		return idtransaction == null ? 0 : idtransaction.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction [idtransaction=" + idtransaction + ", amount=" + amount + ", sourceAccount=" + sourceAccount
+				+ ", targetAccount=" + targetAccount + "]";
+	}
+	
+	
+	
 }
