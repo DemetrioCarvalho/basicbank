@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.livingit.basicbank.model.Account;
 import com.livingit.basicbank.model.Transaction;
 import com.livingit.basicbank.service.TransactionService;
 
@@ -52,4 +53,15 @@ public class TransactionController {
 
 		return new ResponseEntity<List<Transaction>>(transactions, HttpStatus.OK);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Transaction>> getAllTransactions() {
+		List<Transaction> transactions = transactionService.getAll();
+		if (transactions.isEmpty()) {
+			return new ResponseEntity<List<Transaction>>(HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<List<Transaction>>(transactions, HttpStatus.OK);
+	}
+	
 }
